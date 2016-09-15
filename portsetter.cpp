@@ -1,7 +1,22 @@
+#include <vector>
 #include <cstddef>
 #include <cstdlib>
 #include <iostream>
 #include <cstring>
+
+
+// Need to read usage from file.
+// E.g. portsetter.cpp.usage_en.txt
+// read by line.
+enum class USAGE_STRING_INDX {
+  USAGE_MSG,
+  FLAG_HEADER_MSG,
+  P_FLAG_MSG,
+  H_FLAG_MSG,
+};
+
+//std::vector<std::string*> en = {"Usage: portsetter [flag] [port]", "\tFlags:", "\t\t-p, --port [n]\t where 0 < n <= 65000", "\t\t-h, --help\t Prints this usage screen."}
+//std::vector<std::string*> usage_msg = en;
 
 void usage() {
   std::cout << "Usage: portsetter [flag] [port]" << std::endl;
@@ -9,6 +24,15 @@ void usage() {
   std::cout << "\t\t-p, --port [n]\t where 0 < n <= 65000" << std::endl;
   std::cout << "\t\t-h, --help\t Prints this usage screen." << std::endl;
 }
+
+//Language reqs.
+// 1. LANGUAGE
+// 2. LANG
+// 3. LC_ALL
+// 4. LC
+// 5. Default to en.
+//
+// Read from lang file into msg array.
 
 int main(int argc, char** args) {
   if (argc == 1) {
