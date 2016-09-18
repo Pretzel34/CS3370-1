@@ -16,9 +16,6 @@ enum class USAGE_STRING_INDX {
   E_FLAG_MSG,
 };
 
-//std::vector<std::string*> en = {"Usage: portsetter [flag] [port]", "\tFlags:", "\t\t-p, --port [n]\t where 0 < n <= 65000", "\t\t-h, --help\t Prints this usage screen."}
-//std::vector<std::string*> usage_msg = en;
-
 void usage() {
   std::cout << "Usage: portsetter [flag] [port]" << std::endl;
   std::cout << "\tFlags:" << std::endl;
@@ -34,7 +31,8 @@ void usage() {
 // 5. Default to en.
 //
 // Read from lang file into msg array.
-//
+
+
 int getport(int argsindx, int argc, char** args, std::string portstr) {
   if (portstr == "-e") {
     auto envstr = "PORT";
