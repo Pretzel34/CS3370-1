@@ -1,15 +1,15 @@
 # CS3370
 Advanced C++ course.
 
-Building
-############################
+#Building
+=============================================
 To auto build a make file you will need cmake.
 When you have cmake run:
 cmake .
 then you can run make.
 
-Running
-#############################
+#Running
+=============================================
 You can run the portsetter program by doing either:
 
 ./portsetter -p PORT
