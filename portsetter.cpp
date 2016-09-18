@@ -20,6 +20,7 @@ void usage() {
   std::cout << "Usage: portsetter [flag] [port]" << std::endl;
   std::cout << "\tFlags:" << std::endl;
   std::cout << "\t\t-p, --port [n]\t where 0 < n <= 65000" << std::endl;
+  std::cout << "\t\t-e, --env [ENV_VAR]\t Use default PORT env variable or use custom." << std::endl;
   std::cout << "\t\t-h, --help\t Prints this usage screen." << std::endl;
 }
 
@@ -34,7 +35,7 @@ void usage() {
 
 
 int getport(int argsindx, int argc, char** args, std::string portstr) {
-  if (portstr == "-e") {
+  if (portstr == "-e" || portstr == "--env") {
     auto envstr = "PORT";
     if (argsindx + 1 < argc) {
       auto env_var_indx = argsindx + 1;
