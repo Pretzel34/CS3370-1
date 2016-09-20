@@ -18,7 +18,10 @@
 ### Flags
 
   -h --help
+
   -p --port
+
+  -e --env
 
 ### Failure Cases
 
