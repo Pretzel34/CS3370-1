@@ -1,0 +1,5 @@
+Uso: portsetter [flag] [port]
+  Banderas:
+    -p, --port [n]   donde 0 < n <= 65000
+    -e, --env [ENV_VAR]   Usar variable de entorno PORT por defecto o utilizar personalizado.
+    -h, --help  Imprime esta pantalla de uso.

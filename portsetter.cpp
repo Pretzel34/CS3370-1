@@ -2,37 +2,71 @@
 #include <cstddef>
 #include <cstdlib>
 #include <iostream>
+#include <fstream>
 #include <cstring>
+#include <locale>
+
+
 
 
 // Need to read usage from file.
 // E.g. portsetter.cpp.usage_en.txt
 // read by line.
-enum class USAGE_STRING_INDX {
+enum USAGE_STRING_INDX {
   USAGE_MSG,
   FLAG_HEADER_MSG,
   P_FLAG_MSG,
-  H_FLAG_MSG,
   E_FLAG_MSG,
+  H_FLAG_MSG,
 };
 
-void usage() {
-  std::cout << "Usage: portsetter [flag] [port]" << std::endl;
-  std::cout << "\tFlags:" << std::endl;
-  std::cout << "\t\t-p, --port [n]\t where 0 < n <= 65000" << std::endl;
-  std::cout << "\t\t-e, --env [ENV_VAR]\t Use default PORT env variable or use custom." << std::endl;
-  std::cout << "\t\t-h, --help\t Prints this usage screen." << std::endl;
+std::string get_lang() {
+  //Language reqs.
+  // 1. LANGUAGE
+  // 2. LANG
+  // 3. LC_ALL
+  // 4. LC
+  // 5. Default to en.
+  //
+  // Read from lang file into msg array.
+  std::string lang;
+  try {
+    std::string lc = std::locale("").name();
+    if (lc == "*") {
+      std::cout << "Locale not set defaulting to english." << std::endl;
+      lang = "en";
+    } else {
+      lang = lc.substr(0, 2);
+    }
+  } catch (std::runtime_error) {
+    std::cout << "Environment Locale is invalid defaulting to english." << std::endl;
+    lang = "en";
+  }
+
+  return lang;
 }
 
-//Language reqs.
-// 1. LANGUAGE
-// 2. LANG
-// 3. LC_ALL
-// 4. LC
-// 5. Default to en.
-//
-// Read from lang file into msg array.
+std::vector<std::string> get_error_msgs(std::string lang) {
+}
 
+std::string readfile(std::string infile) {
+  if (std::ifstream strm{infile, std::ios::in | std::ios::ate}) {
+    auto size = strm.tellg();
+    std::string stdoutres(size, '\0');
+    strm.seekg(0);
+    strm.read(&stdoutres[0], size);
+    strm.close();
+    return stdoutres;
+  } else {
+    std::cout << "Failed to open infile: " << infile << std::endl;
+  }
+  return "";
+}
+
+void usage(std::string lang) {
+  std::string msg = readfile("locale/" + lang + "/usage.txt");
+  std::cout << msg << std::endl;
+}
 
 int getport(int argsindx, int argc, char** args, std::string portstr) {
   if (portstr == "-e" || portstr == "--env") {
@@ -48,8 +82,9 @@ int getport(int argsindx, int argc, char** args, std::string portstr) {
 }
 
 int main(int argc, char** args) {
+  std::string lang = get_lang();
   if (argc == 1) {
-    usage();
+    usage(lang);
   } else {
     int i = 1;
     for (i; i < argc; i++) {
@@ -66,16 +101,16 @@ int main(int argc, char** args) {
               break;
             }
           } catch (std::invalid_argument) {
-            usage();
+            usage(lang);
             return EXIT_FAILURE;
           } catch (std::out_of_range) {
-            usage();
+            usage(lang);
             return EXIT_FAILURE;
           }
         }
       }
 
-      usage();
+      usage(lang);
       return EXIT_FAILURE;
     }
   }

@@ -1,0 +1,5 @@
+Usage: portsetter [flag] [port]
+  Flags:
+    -p, --port [n]   where 0 < n <= 65000
+    -e, --env [ENV_VAR]   Use default PORT env variable or use custom.
+    -h, --help  Prints this usage screen.
