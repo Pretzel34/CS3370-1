@@ -3,16 +3,21 @@
 
 
 
-### Functional Requirements
+## Phase 1 Requirements
 
 
 ### Primary Cases
 
   portsetter must print usage if passed no params
+
   portsetter must print usage if it is passed an -h
+
   portsetter must print usage if it is passed an --help
+
   portsetter should a -p flag that accepts an integer
+
   portsetter should a --port flag that accepts an integer
+
   Parameter flags should be case sensitive and lower case for this project.
 
 ### Flags
@@ -20,8 +25,6 @@
   -h --help
 
   -p --port
-
-  -e --env
 
 ### Failure Cases
 
@@ -55,13 +58,36 @@
 
   Flag should not accept values that immediately follow the flag (i.e.-pNumber)
 
-  First parameter has to start with a ‘-
+  First parameter has to start with a ‘‘
 
 ### Nonfunctional
 
-Executable generated should be portsetter.o
-Can be portsetter.cpp.o
+Executable generated should be portsetter
 
-### Not Required
-  Unit testing or a driver
+## Phase 2
 
+### Flags
+
+Add -e --env flag to support passing an env variable with a port number.
+
+### CLI Requirements
+
+-e flag defaults to PORT if an environment variable isn't specified.
+
+### Unit testing
+
+Create separate program to run tests against the Phase 1 requirements.
+
+## Phase 3
+
+### Language support
+
+Add support for printing all statements in spanish if the env language is set to that.
+
+Use regex to get lang env var to the desired format.
+
+Default to english if env value is invalid.
+
+### Tests
+
+Add tests to validate that the language support is working.
