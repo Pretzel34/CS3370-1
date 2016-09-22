@@ -3,8 +3,10 @@ Advanced C++ course.
 
 #Building
 To auto build a make file you will need cmake.
+
 When you have cmake run:
 cmake .
+
 then you can run make.
 
 #Running
