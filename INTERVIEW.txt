@@ -1,0 +1,48 @@
+1. Give me an example of a processor directive you've used.
+A. #ifndef #define #pragma
+
+2. What CLI code have you written?
+A. portsetter, various bash scripts, and python scripts.
+
+3. It says you had locale support in your app how would you add german?
+A. I would add a directory DE to my locale directory and add the translated messages, usage, and about files.
+
+4. What's regEx? And give an example of where you used it.
+A. Regular Expressions are expressions used to generate an automaton. I have used regEx to parse locale language.
+
+5. Tell me about a time you have run into difficulties programming.
+A. I am currently having a problem parsing lines from a file without knowing their length ahead of time.
+
+6. How do you write cross platform code?
+A. I don't think there is a standard way of writing cross platform programs, but I would use cmake to help me generate executables based on the platform.
+  Since CMake has ways to specifiy what to do when you encounter a specific platform.
+  However, if CMake wasn't an option I would end up using preprocessor directives to only include headers that are supported on all platforms.
+
+7. What's portable mean?
+A. It means your code is easily portable to another platform.
+
+8. Give a practical use for modulus %.
+A. Modulus can be used to set a variable to the remainder of some division or it can be used to have an index that stays within the boundaries of a data structure.
+  E.g. When implementing a hasing algorithm for hash maps you use the modulus of some integer has to keep it within the max size of your container, but also have the ability to loop.
+
+9. What's a pointer?
+A. A pointer is a data type that points to a location in memory. It doesn't contain the value of your memory location only the memory address.
+  To use the value of the pointer you must dereference it.
+
+10. Translate this to english: string **p;
+A. P contains the address to an address that contains the address of a string.
+
+11. Continuing with that code string foo("Bob"), string *bar = &foo, string **p = &bar.
+A. string foo("Bob") is constructing a string with the value "Bob" and assinging it to the variable foo.
+   string *bar = &foo is assinging the address in memory to bar which is a pointer to a string.
+   string **p = &bar is assigning the address of the bar pointer to p.
+
+12. What's the difference between a and b versions?
+A. string foo("Bob") and string foo = "Bob" are different in that: the variable foo = "Bob" is assigned the value of a static constant string "Bob" and foo("Bob") is constructing a string with the value "Bob" then assigning this value to foo.
+
+13. Give an example of an lvalue and an rvalue;
+A. lvalue: string foo = "Bob" // A value that persists after usage.
+   rvalue: "Bob"; // A value that only exists during the line of execution.
+
+14. What's a spike?
+A. It could also be called prototype, but it is basically a demo program for some feature you are trying to implement.

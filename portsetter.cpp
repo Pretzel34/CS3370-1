@@ -22,22 +22,23 @@ enum MSG_STRING_INDX {
 
 std::vector<std::string> readlines(std::string infile) {
   std::vector<std::string> msgs;
-  if (std::ifstream strm{infile, std::ios::in}) {
-    while (!strm.eof()) {
-      std::string temp(50, '\0');
-      strm >> temp;
-      std::cout << temp << std::endl;
+  std::ifstream strm(infile, std::ios::in);
+  if (strm.good()) {
+    std::string temp(50, '\0');
+    for (temp.clear(); strm.getline(&temp[0], 50); ) {
+      std::cout << "Temp msg: " << temp << std::endl;
       msgs.push_back(temp);
     }
     strm.close();
-    return msgs;
   } else {
     std::cout << "Failed to open messages infile: " << infile << std::endl;
   }
+  return msgs;
 }
 
 std::string readfile(std::string infile) {
-  if (std::ifstream strm{infile, std::ios::in | std::ios::ate}) {
+  std::ifstream strm(infile, std::ios::in | std::ios::ate);
+  if (strm.good()) {
     auto size = strm.tellg();
     std::string stdoutres(size, '\0');
     strm.seekg(0);
@@ -62,7 +63,7 @@ std::string get_lang() {
   std::string lang;
   try {
     std::string lc = std::locale("").name();
-    if (lc == "*") {
+    if (lc == "*" || lc == "") {
       std::cout << "Locale not set defaulting to english." << std::endl;
       lang = "en";
     } else {
@@ -108,8 +109,8 @@ int main(int argc, char** args) {
   if (argc == 1) {
     usage(lang);
   } else {
-    int i = 1;
-    for (i; i < argc; i++) {
+    int i;
+    for (i = 1; i < argc; i++) {
       std::string current_arg = args[i];
 
       if (current_arg == "-p" || current_arg == "--port") {
