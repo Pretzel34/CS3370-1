@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <cstring>
 #include <locale>
 
@@ -24,9 +25,7 @@ std::vector<std::string> readlines(std::string infile) {
   std::vector<std::string> msgs;
   std::ifstream strm(infile, std::ios::in);
   if (strm.good()) {
-    std::string temp(50, '\0');
-    for (temp.clear(); strm.getline(&temp[0], 50); ) {
-      std::cout << "Temp msg: " << temp << std::endl;
+    for (std::string temp; !strm.eof(); std::getline(strm, temp)) {
       msgs.push_back(temp);
     }
     strm.close();

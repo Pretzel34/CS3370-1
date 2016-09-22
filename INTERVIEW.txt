@@ -1,5 +1,5 @@
 1. Give me an example of a processor directive you've used.
-A. #ifndef #define #pragma
+A. #ifndef #define #pragma, etc.
 
 2. What CLI code have you written?
 A. portsetter, various bash scripts, and python scripts.
@@ -33,12 +33,38 @@ A. A pointer is a data type that points to a location in memory. It doesn't cont
 A. P contains the address to an address that contains the address of a string.
 
 11. Continuing with that code string foo("Bob"), string *bar = &foo, string **p = &bar.
-A. string foo("Bob") is constructing a string with the value "Bob" and assinging it to the variable foo.
-   string *bar = &foo is assinging the address in memory to bar which is a pointer to a string.
-   string **p = &bar is assigning the address of the bar pointer to p.
+A.
+
+    foo
+  --------
+  | Bob  | xAA10
+  --------
+
+    ^
+    |
+    |
+    |
+
+    bar
+  ---------
+  | xAA10 | xB112
+  ---------
+
+    ^
+    |
+    |
+    |
+
+    p
+  ---------
+  | xB112 | xC448
+  ---------
+
 
 12. What's the difference between a and b versions?
-A. string foo("Bob") and string foo = "Bob" are different in that: the variable foo = "Bob" is assigned the value of a static constant string "Bob" and foo("Bob") is constructing a string with the value "Bob" then assigning this value to foo.
+A. string foo("Bob") and string foo = "Bob" are different in that:
+  the variable foo = "Bob" is assigned the value of a static constant string "Bob" and foo("Bob") is constructing a string with the value "Bob" then assigning this value to foo.
+  Either way they end up being the same.
 
 13. Give an example of an lvalue and an rvalue;
 A. lvalue: string foo = "Bob" // A value that persists after usage.
