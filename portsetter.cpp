@@ -12,13 +12,43 @@
 // Need to read usage from file.
 // E.g. portsetter.cpp.usage_en.txt
 // read by line.
-enum USAGE_STRING_INDX {
-  USAGE_MSG,
-  FLAG_HEADER_MSG,
-  P_FLAG_MSG,
-  E_FLAG_MSG,
-  H_FLAG_MSG,
+enum MSG_STRING_INDX {
+  LISTEN_PORT,
+  INVALID_PORT,
+  VALUE_OUT_RANGE,
+  INVALID_PARAMS,
 };
+
+
+std::vector<std::string> readlines(std::string infile) {
+  std::vector<std::string> msgs;
+  if (std::ifstream strm{infile, std::ios::in}) {
+    while (!strm.eof()) {
+      std::string temp(50, '\0');
+      strm >> temp;
+      std::cout << temp << std::endl;
+      msgs.push_back(temp);
+    }
+    strm.close();
+    return msgs;
+  } else {
+    std::cout << "Failed to open messages infile: " << infile << std::endl;
+  }
+}
+
+std::string readfile(std::string infile) {
+  if (std::ifstream strm{infile, std::ios::in | std::ios::ate}) {
+    auto size = strm.tellg();
+    std::string stdoutres(size, '\0');
+    strm.seekg(0);
+    strm.read(&stdoutres[0], size);
+    strm.close();
+    return stdoutres;
+  } else {
+    std::cout << "Failed to open infile: " << infile << std::endl;
+  }
+  return "";
+}
 
 std::string get_lang() {
   //Language reqs.
@@ -46,26 +76,17 @@ std::string get_lang() {
   return lang;
 }
 
-std::vector<std::string> get_error_msgs(std::string lang) {
-}
-
-std::string readfile(std::string infile) {
-  if (std::ifstream strm{infile, std::ios::in | std::ios::ate}) {
-    auto size = strm.tellg();
-    std::string stdoutres(size, '\0');
-    strm.seekg(0);
-    strm.read(&stdoutres[0], size);
-    strm.close();
-    return stdoutres;
-  } else {
-    std::cout << "Failed to open infile: " << infile << std::endl;
-  }
-  return "";
+std::vector<std::string> get_msgs(std::string lang) {
+  return readlines("locale/" + lang + "/messages.txt");
 }
 
 void usage(std::string lang) {
   std::string msg = readfile("locale/" + lang + "/usage.txt");
   std::cout << msg << std::endl;
+}
+
+void printerror(std::vector<std::string> msgs, int msgindx) {
+  std::cout << "Error: " << msgs[msgindx] << std::endl;
 }
 
 int getport(int argsindx, int argc, char** args, std::string portstr) {
@@ -83,6 +104,7 @@ int getport(int argsindx, int argc, char** args, std::string portstr) {
 
 int main(int argc, char** args) {
   std::string lang = get_lang();
+  auto msgs = get_msgs(lang);
   if (argc == 1) {
     usage(lang);
   } else {
@@ -97,19 +119,22 @@ int main(int argc, char** args) {
             std::string portstr = args[port_index];
             auto port = getport(port_index, argc, args, portstr);
             if (port > 0 && port <= 65000) {
-              std::cout << "Listening on port " << port << std::endl;
+              std::cout << msgs[MSG_STRING_INDX::LISTEN_PORT] << port << std::endl;
               break;
             }
           } catch (std::invalid_argument) {
+            printerror(msgs, MSG_STRING_INDX::INVALID_PORT);
             usage(lang);
             return EXIT_FAILURE;
           } catch (std::out_of_range) {
+            printerror(msgs, MSG_STRING_INDX::VALUE_OUT_RANGE);
             usage(lang);
             return EXIT_FAILURE;
           }
         }
       }
 
+      printerror(msgs, MSG_STRING_INDX::INVALID_PARAMS);
       usage(lang);
       return EXIT_FAILURE;
     }
