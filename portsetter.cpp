@@ -25,7 +25,8 @@ std::vector<std::string> readlines(std::string infile) {
   std::vector<std::string> msgs;
   std::ifstream strm(infile, std::ios::in);
   if (strm.good()) {
-    for (std::string temp; !strm.eof(); std::getline(strm, temp)) {
+    for (std::string temp; !strm.eof(); ) {
+      std::getline(strm, temp);
       msgs.push_back(temp);
     }
     strm.close();
@@ -45,7 +46,7 @@ std::string readfile(std::string infile) {
     strm.close();
     return stdoutres;
   } else {
-    std::cout << "Failed to open infile: " << infile << std::endl;
+    std::cout << "Failed to open usage infile: " << infile << std::endl;
   }
   return "";
 }
@@ -99,18 +100,25 @@ int getport(int argsindx, int argc, char** args, std::string portstr) {
     portstr = std::getenv(envstr);
     return std::stoi(portstr);
   }
-  return 0;
+  return std::stoi(portstr);
 }
 
 int main(int argc, char** args) {
   std::string lang = get_lang();
   auto msgs = get_msgs(lang);
   if (argc == 1) {
+    printerror(msgs, MSG_STRING_INDX::INVALID_PARAMS);
     usage(lang);
+    return EXIT_FAILURE;
   } else {
     int i;
     for (i = 1; i < argc; i++) {
       std::string current_arg = args[i];
+
+      if (current_arg == "-h" || current_arg == "--help") {
+        usage(lang);
+        return EXIT_SUCCESS;
+      }
 
       if (current_arg == "-p" || current_arg == "--port") {
         if (i + 1 < argc) {
@@ -119,7 +127,7 @@ int main(int argc, char** args) {
             std::string portstr = args[port_index];
             auto port = getport(port_index, argc, args, portstr);
             if (port > 0 && port <= 65000) {
-              std::cout << msgs[MSG_STRING_INDX::LISTEN_PORT] << port << std::endl;
+              std::cout << msgs[(int)MSG_STRING_INDX::LISTEN_PORT] << port << std::endl;
               break;
             }
           } catch (std::invalid_argument) {

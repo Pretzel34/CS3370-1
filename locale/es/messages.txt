@@ -1,0 +1,4 @@
+Escucha en el puerto: 
+Argumento de puerto no válido.
+Valor demasiado grande para caber en un entero.
+Los parámetros no válidos pasados a programar.
