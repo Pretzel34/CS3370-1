@@ -127,7 +127,7 @@ int main(int argc, char** args) {
             std::string portstr = args[port_index];
             auto port = getport(port_index, argc, args, portstr);
             if (port > 0 && port <= 65000) {
-              std::cout << msgs[(int)MSG_STRING_INDX::LISTEN_PORT] << port << std::endl;
+              std::cout << msgs[MSG_STRING_INDX::LISTEN_PORT] << port << std::endl;
               break;
             }
           } catch (std::invalid_argument) {
