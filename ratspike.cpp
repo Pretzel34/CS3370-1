@@ -1,3 +1,4 @@
+#include <string>
 #include <cstring>
 #include <vector>
 #include <iostream>
@@ -34,7 +35,6 @@ void writeTextData(ofstream& textFile, Rat& rat) {
 
 void readTextData(ifstream& textFile, Rat& rat) {
   textFile >> rat;
-  textFile >> rat;
 }
 
 //----- BINARY I/O -----//
@@ -62,39 +62,50 @@ int main() {
  r2.name[6] = 'd';
  r2.age = 3;
 
- cout << "Display r1" << '\n';
+ cout << "Display r1 via display()" << '\n';
  display(r1);
- cout << "Display r2" << '\n';
+ cout << "Display r2 via display()" << '\n';
  display(r2);
 
- ofstream rf1("ratfarm.txt", ios::trunc);
- ifstream if1("ratfarm.txt");
- ofstream rf2("ratfarm2.txt", ios::trunc);
- ofstream obrf3("ratfarm3.txt", ios::binary | ios::trunc);
- ifstream ibrf3("ratfarm3.txt", ios::binary);
 
+ ofstream rf1("ratfarm.txt", ios::out | ios::trunc);
  writeTextData(rf1, r1);
  writeTextData(rf1, r2);
- writeBinaryData(obrf3, r1);
+ rf1.close();
 
+ ofstream obrf3("ratfarm3.txt", ios::binary | ios::trunc);
+ writeBinaryData(obrf3, r1);
+ obrf3.close();
+
+ ifstream if1("ratfarm.txt", ios::in);
  readTextData(if1, r3);
  readTextData(if1, r4);
- readBinaryData(ibrf3, r5);
+ if1.close();
 
- cout << "Display r3" << '\n';
+ ifstream ibrf3("ratfarm3.txt", ios::in | ios::binary);
+ readBinaryData(ibrf3, r5);
+ ibrf3.close();
+
+ cout << "Display r3 via display()" << '\n';
  display(r3);
- cout << "Display r4" << '\n';
+ cout << "Display r4 via display()" << '\n';
  display(r4);
 
- cout << "Display r5" << '\n';
+ cout << "Display r5 via display()" << '\n';
  display(r5);
 
- //rf2 << r1;
- //rf2 << r2;
+ ofstream rf2("ratfarm2.txt", ios::out | ios::trunc);
+ rf2 << r1;
+ rf2 << r2;
+ rf2.close();
 
- //if1 >> r3;
- //if1 >> r4;
+ if1.open("ratfarm.txt", ios::in);
+ if1 >> r3;
+ if1 >> r4;
+ if1.close();
 
- //cout << r3;
- //cout << r4;
+ cout << "Display r3 via << to cout" << '\n';
+ cout << r3;
+ cout << "Display r4 via << to cout" << '\n';
+ cout << r4;
 }
