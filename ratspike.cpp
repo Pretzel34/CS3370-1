@@ -107,4 +107,5 @@ int main() {
  cout << r3;
  cout << "Display r4 via << to cout" << '\n';
  cout << r4;
+ return 0;
 }
