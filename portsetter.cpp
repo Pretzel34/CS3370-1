@@ -6,7 +6,9 @@
 #include <sstream>
 #include <cstring>
 #include <locale>
-
+#include <stdio.h>
+#include <stdlib.h>
+using namespace std;
 
 
 
@@ -20,6 +22,17 @@ enum MSG_STRING_INDX {
   INVALID_PARAMS,
 };
 
+void setEnv(int port, char* varName) {
+	char buffer[80] = "export ";
+	strcat(buffer, varName);
+	strcat(buffer, "=");
+	
+	string strPort = to_string(port);
+	strcat(buffer, strPort.c_str());
+	
+	system(buffer);
+
+}
 
 std::vector<std::string> readlines(std::string infile) {
   std::vector<std::string> msgs;
@@ -104,6 +117,12 @@ int getport(int argsindx, int argc, char** args, std::string portstr) {
 }
 
 int main(int argc, char** args) {
+  
+  char myPort[40]="PORT";
+	char bar[40]="BAR";
+	setEnv(3114, myPort);
+	setEnv(3116, bar);
+	
   std::string lang = get_lang();
   auto msgs = get_msgs(lang);
   if (argc == 1) {
